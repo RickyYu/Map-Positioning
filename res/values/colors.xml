@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="dominant_hue">#ff0178d9</color>
+    <color name="bg_gray_deep_light">#ffe0e0e0</color>
+    <color name="red">#ffe6312a</color>
+    <color name="white_color_disable">#7fffffff</color>
+    <color name="white_color">#ffffffff</color>
+
+</resources>
