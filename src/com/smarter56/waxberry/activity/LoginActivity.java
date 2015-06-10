@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * @author Ricky
+ */
 public class LoginActivity extends Activity {
 	private EditText etPhoneNo;
 	private Button btnLogin;

@@ -11,6 +11,9 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+/**
+ * @author Ricky
+ */
 public class CustomGpsService extends Service {
 
 	private static final int REQUEST_MIN_TIME =10000;//10秒

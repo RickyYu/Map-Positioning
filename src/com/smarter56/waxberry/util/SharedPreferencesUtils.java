@@ -12,6 +12,9 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
+/**
+ * @author Ricky
+ */
 @SuppressLint("CommitPrefEdits")
 public class SharedPreferencesUtils {
 	private SharedPreferences sp;

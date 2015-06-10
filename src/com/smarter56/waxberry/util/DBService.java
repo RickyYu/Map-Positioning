@@ -14,6 +14,9 @@ import android.R.integer;
 import android.content.Context;
 import android.util.Log;
 
+/**
+ * @author Ricky
+ */
 public class DBService {
 	private final static String TAG = DBService.class.getSimpleName();
 	private static DBService instance;

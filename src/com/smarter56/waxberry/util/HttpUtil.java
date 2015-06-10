@@ -27,6 +27,9 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.smarter56.waxberry.dao.GpsInfoModel;
 
+/**
+ * @author Ricky
+ */
 public class HttpUtil {
 	private Context context;
 	final static String URL = "http://locationsvr.tunnel.mobi/SLP_IOT_WAR/upload/batch/gps";

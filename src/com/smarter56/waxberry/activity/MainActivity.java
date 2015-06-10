@@ -32,6 +32,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * @author Ricky
+ */
 public class MainActivity extends Activity implements OnClickListener {
 	private final static String TAG = MainActivity.class.getSimpleName();
 	private static final String START_LOCSTART_SERVICE = "START_LOCATING_SERVICE";

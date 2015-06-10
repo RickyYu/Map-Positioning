@@ -19,6 +19,9 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * @author Ricky
+ */
 public class CustomBDLocationListener implements BDLocationListener {
 	private final static String TAG = CustomBDLocationListener.class
 			.getSimpleName();
