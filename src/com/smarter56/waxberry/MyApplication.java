@@ -4,7 +4,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.GeofenceClient;
 import com.baidu.location.LocationClient;
-
+import com.smarter56.waxberry.util.SharedPreferencesUtils;
 
 import android.app.Application;
 import android.app.Service;
@@ -18,6 +18,7 @@ import android.widget.TextView;
 public class MyApplication extends Application {
 	public static String TAG = MyApplication.class.getSimpleName();
 	private static MyApplication instance;
+
 	/**
 	 * support a method to get a instance for the outside
 	 */
@@ -26,6 +27,13 @@ public class MyApplication extends Application {
 			instance = new MyApplication();
 		}
 		return instance;
+	}
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+
+
 	}
 
 }

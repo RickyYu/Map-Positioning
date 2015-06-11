@@ -45,7 +45,6 @@ public class CustomGpsService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		
 		if (locationClient != null){
-			Log.i("ricky", "locationClient.start()");
 			locationClient.start();
 		}
 		return super.onStartCommand(intent, flags, startId);

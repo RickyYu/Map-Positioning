@@ -8,19 +8,15 @@
     <string name="stoplocation">停止定位</string>
 
     <!-- login activity -->
-    <string name="tenant">租户</string>
-    <string name="username">用户名</string>
-    <string name="password">密码</string>
-    <string name="hint_tenant">请输入租户号</string>
-    <string name="hint_username">请输入您的手机号吗</string>
-    <string name="hint_password">请输入密码</string>
-    <string name="forget_password">忘记密码?</string>
-    <string name="pls_wait">请稍等&#8230;</string>
-    <string name="do_not_have_account">没有帐号?</string>
-    <string name="profile">个人信息</string>
-    <string name="tanent_title">租户信息</string>
-    <string name="platform_user">平台用户</string>
-    <string name="vehicle_info">车辆信息</string>
+   
+    <string name="hint_username">请输入您的手机号</string>
+    <string name="hint_vehicleno">请输入您的车牌号</string>
+
     <string name="login">登录</string>
+    <string name="cp_info">          宁波智慧物流科技有限公司
+                                                                                                                                   浙ICP备 11018868号
+                                    Copyright©2011-2013</string>
+    <string name="unknown_error">未知错误</string>
+                                    
 
 </resources>

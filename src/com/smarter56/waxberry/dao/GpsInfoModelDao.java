@@ -25,11 +25,13 @@ public class GpsInfoModelDao extends AbstractDao<GpsInfoModel, Void> {
     public static class Properties {
         public final static Property Lat = new Property(0, Double.class, "lat", false, "LAT");
         public final static Property Lon = new Property(1, Double.class, "lon", false, "LON");
-        public final static Property UpdateTime = new Property(2, String.class, "updateTime", false, "UPDATE_TIME");
-        public final static Property VehicleNo = new Property(3, String.class, "vehicleNo", false, "VEHICLE_NO");
-        public final static Property PlaceName = new Property(4, String.class, "placeName", false, "PLACE_NAME");
-        public final static Property Speed = new Property(5, Float.class, "speed", false, "SPEED");
-        public final static Property Direction = new Property(6, Float.class, "direction", false, "DIRECTION");
+        public final static Property UpdateTime = new Property(2, Long.class, "updateTime", false, "UPDATE_TIME");
+        public final static Property UploadTime = new Property(3, String.class, "uploadTime", false, "UPLOAD_TIME");
+        public final static Property VehicleNo = new Property(4, String.class, "vehicleNo", false, "VEHICLE_NO");
+        public final static Property PlaceName = new Property(5, String.class, "placeName", false, "PLACE_NAME");
+        public final static Property Speed = new Property(6, Float.class, "speed", false, "SPEED");
+        public final static Property Direction = new Property(7, Float.class, "direction", false, "DIRECTION");
+        public final static Property TotalMeters = new Property(8, Integer.class, "totalMeters", false, "TOTAL_METERS");
     };
 
 
@@ -47,11 +49,13 @@ public class GpsInfoModelDao extends AbstractDao<GpsInfoModel, Void> {
         db.execSQL("CREATE TABLE " + constraint + "'GPS_INFO_MODEL' (" + //
                 "'LAT' REAL," + // 0: lat
                 "'LON' REAL," + // 1: lon
-                "'UPDATE_TIME' TEXT," + // 2: updateTime
-                "'VEHICLE_NO' TEXT," + // 3: vehicleNo
-                "'PLACE_NAME' TEXT," + // 4: placeName
-                "'SPEED' REAL," + // 5: speed
-                "'DIRECTION' REAL);"); // 6: direction
+                "'UPDATE_TIME' INTEGER," + // 2: updateTime
+                "'UPLOAD_TIME' TEXT," + // 3: uploadTime
+                "'VEHICLE_NO' TEXT," + // 4: vehicleNo
+                "'PLACE_NAME' TEXT," + // 5: placeName
+                "'SPEED' REAL," + // 6: speed
+                "'DIRECTION' REAL," + // 7: direction
+                "'TOTAL_METERS' INTEGER);"); // 8: totalMeters
     }
 
     /** Drops the underlying database table. */
@@ -75,29 +79,39 @@ public class GpsInfoModelDao extends AbstractDao<GpsInfoModel, Void> {
             stmt.bindDouble(2, lon);
         }
  
-        String updateTime = entity.getUpdateTime();
+        Long updateTime = entity.getUpdateTime();
         if (updateTime != null) {
-            stmt.bindString(3, updateTime);
+            stmt.bindLong(3, updateTime);
+        }
+ 
+        String uploadTime = entity.getUploadTime();
+        if (uploadTime != null) {
+            stmt.bindString(4, uploadTime);
         }
  
         String vehicleNo = entity.getVehicleNo();
         if (vehicleNo != null) {
-            stmt.bindString(4, vehicleNo);
+            stmt.bindString(5, vehicleNo);
         }
  
         String placeName = entity.getPlaceName();
         if (placeName != null) {
-            stmt.bindString(5, placeName);
+            stmt.bindString(6, placeName);
         }
  
         Float speed = entity.getSpeed();
         if (speed != null) {
-            stmt.bindDouble(6, speed);
+            stmt.bindDouble(7, speed);
         }
  
         Float direction = entity.getDirection();
         if (direction != null) {
-            stmt.bindDouble(7, direction);
+            stmt.bindDouble(8, direction);
+        }
+ 
+        Integer totalMeters = entity.getTotalMeters();
+        if (totalMeters != null) {
+            stmt.bindLong(9, totalMeters);
         }
     }
 
@@ -113,11 +127,13 @@ public class GpsInfoModelDao extends AbstractDao<GpsInfoModel, Void> {
         GpsInfoModel entity = new GpsInfoModel( //
             cursor.isNull(offset + 0) ? null : cursor.getDouble(offset + 0), // lat
             cursor.isNull(offset + 1) ? null : cursor.getDouble(offset + 1), // lon
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // updateTime
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // vehicleNo
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // placeName
-            cursor.isNull(offset + 5) ? null : cursor.getFloat(offset + 5), // speed
-            cursor.isNull(offset + 6) ? null : cursor.getFloat(offset + 6) // direction
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // updateTime
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // uploadTime
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // vehicleNo
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // placeName
+            cursor.isNull(offset + 6) ? null : cursor.getFloat(offset + 6), // speed
+            cursor.isNull(offset + 7) ? null : cursor.getFloat(offset + 7), // direction
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8) // totalMeters
         );
         return entity;
     }
@@ -127,11 +143,13 @@ public class GpsInfoModelDao extends AbstractDao<GpsInfoModel, Void> {
     public void readEntity(Cursor cursor, GpsInfoModel entity, int offset) {
         entity.setLat(cursor.isNull(offset + 0) ? null : cursor.getDouble(offset + 0));
         entity.setLon(cursor.isNull(offset + 1) ? null : cursor.getDouble(offset + 1));
-        entity.setUpdateTime(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setVehicleNo(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setPlaceName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setSpeed(cursor.isNull(offset + 5) ? null : cursor.getFloat(offset + 5));
-        entity.setDirection(cursor.isNull(offset + 6) ? null : cursor.getFloat(offset + 6));
+        entity.setUpdateTime(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setUploadTime(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setVehicleNo(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setPlaceName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setSpeed(cursor.isNull(offset + 6) ? null : cursor.getFloat(offset + 6));
+        entity.setDirection(cursor.isNull(offset + 7) ? null : cursor.getFloat(offset + 7));
+        entity.setTotalMeters(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
      }
     
     /** @inheritdoc */

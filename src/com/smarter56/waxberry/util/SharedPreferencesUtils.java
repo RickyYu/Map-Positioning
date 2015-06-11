@@ -3,7 +3,6 @@ package com.smarter56.waxberry.util;
 import java.util.Map;
 import java.util.Set;
 
-
 import com.smarter56.waxberry.MyApplication;
 
 import android.annotation.SuppressLint;
@@ -98,6 +97,33 @@ public class SharedPreferencesUtils {
 
 	public boolean setPhoneNo(String phoneNo) {
 		spEditor.putString("phoneNo", phoneNo);
+		return spEditor.commit();
+	}
+
+	public String getVehicleNo() {
+		return sp.getString("vehicleno", "");
+	}
+
+	public boolean setVehicleNo(String vehicleno) {
+		spEditor.putString("vehicleno", vehicleno);
+		return spEditor.commit();
+	}
+
+	public String getTotalMeters() {
+		return sp.getString("totalMeters", "");
+	}
+
+	public boolean setTotalMeters(String totalMeters) {
+		spEditor.putString("totalMeters", totalMeters);
+		return spEditor.commit();
+	}
+
+	public boolean getAutoLogin() {
+		return sp.getBoolean("auto_login", false);
+	}
+
+	public boolean setAutoLogin() {
+		spEditor.putBoolean("auto_login", true);
 		return spEditor.commit();
 	}
 }

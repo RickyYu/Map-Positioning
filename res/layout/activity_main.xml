@@ -1,44 +1,84 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_gray_deep_light"
+    android:gravity="center_horizontal|center_vertical"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.smarter56.waxberry.activity.MainActivity"
-  
-     >
+    tools:context="com.smarter56.waxberry.activity.MainActivity" >
 
-    <TextView
-        android:id="@+id/tv_user"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:focusable="true"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tv_content"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tv_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_centerInParent="true"
+        android:focusable="true"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btn_start"
+            style="@style/App.Button.Big.Blue"
+            android:text="开启定位" />
+
+        <Button
+            android:id="@+id/btn_end"
+            style="@style/App.Button.Big.Blue"
+            android:layout_marginTop="10dp"
+            android:text="关闭定位" />
+
+        <Button
+            android:id="@+id/btn_logout"
+            style="@style/App.Button.Big.Red"
+            android:layout_marginTop="20dp"
+            android:text="退出程序" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="开启定位" />
+        android:layout_alignParentBottom="true"
+        android:focusable="true"
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/btn_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="关闭定位" />
+        <ImageView
+            android:layout_width="93.0dip"
+            android:layout_height="93.0dip"
+            android:background="@drawable/logo_nbsl" />
 
-    <Button
-        android:id="@+id/btn_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="关闭程序" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginLeft="20dp"
+            android:text="@string/cp_info" />
+    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

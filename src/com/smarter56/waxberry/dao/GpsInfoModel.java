@@ -8,23 +8,27 @@ public class GpsInfoModel {
 
     private Double lat;
     private Double lon;
-    private String updateTime;
+    private Long updateTime;
+    private String uploadTime;
     private String vehicleNo;
     private String placeName;
     private Float speed;
     private Float direction;
+    private Integer totalMeters;
 
     public GpsInfoModel() {
     }
 
-    public GpsInfoModel(Double lat, Double lon, String updateTime, String vehicleNo, String placeName, Float speed, Float direction) {
+    public GpsInfoModel(Double lat, Double lon, Long updateTime, String uploadTime, String vehicleNo, String placeName, Float speed, Float direction, Integer totalMeters) {
         this.lat = lat;
         this.lon = lon;
         this.updateTime = updateTime;
+        this.uploadTime = uploadTime;
         this.vehicleNo = vehicleNo;
         this.placeName = placeName;
         this.speed = speed;
         this.direction = direction;
+        this.totalMeters = totalMeters;
     }
 
     public Double getLat() {
@@ -43,12 +47,20 @@ public class GpsInfoModel {
         this.lon = lon;
     }
 
-    public String getUpdateTime() {
+    public Long getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(String uploadTime) {
+        this.uploadTime = uploadTime;
     }
 
     public String getVehicleNo() {
@@ -83,11 +95,20 @@ public class GpsInfoModel {
         this.direction = direction;
     }
 
+    public Integer getTotalMeters() {
+        return totalMeters;
+    }
+
+    public void setTotalMeters(Integer totalMeters) {
+        this.totalMeters = totalMeters;
+    }
+
 	@Override
 	public String toString() {
 		return "GpsInfoModel [lat=" + lat + ", lon=" + lon + ", updateTime="
-				+ updateTime + ", vehicleNo=" + vehicleNo + ", placeName="
-				+ placeName + ", speed=" + speed + ", direction=" + direction
+				+ updateTime + ", uploadTime=" + uploadTime + ", vehicleNo="
+				+ vehicleNo + ", placeName=" + placeName + ", speed=" + speed
+				+ ", direction=" + direction + ", totalMeters=" + totalMeters
 				+ "]";
 	}
 

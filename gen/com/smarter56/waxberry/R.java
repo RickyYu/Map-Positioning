@@ -12,11 +12,12 @@ public final class R {
     }
     public static final class color {
         public static final int bg_gray_deep_light=0x7f040001;
+        public static final int black=0x7f040005;
         public static final int dominant_hue=0x7f040000;
         public static final int red=0x7f040002;
         public static final int white_color=0x7f040004;
         public static final int white_color_disable=0x7f040003;
-        public static final int white_color_selector=0x7f040005;
+        public static final int white_color_selector=0x7f040006;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -40,20 +41,24 @@ public final class R {
         public static final int btn_blue_disable=0x7f020000;
         public static final int btn_blue_normal=0x7f020001;
         public static final int btn_blue_press=0x7f020002;
-        public static final int btn_style_blue=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int logo=0x7f020005;
-        public static final int logo_nbsl=0x7f020006;
+        public static final int btn_red_disable=0x7f020003;
+        public static final int btn_red_normal=0x7f020004;
+        public static final int btn_red_press=0x7f020005;
+        public static final int btn_style_blue=0x7f020006;
+        public static final int btn_style_red=0x7f020007;
+        public static final int ic_launcher=0x7f020008;
+        public static final int logo=0x7f020009;
+        public static final int logo_nbsl=0x7f02000a;
     }
     public static final class id {
         public static final int action_settings=0x7f09000f;
-        public static final int btn_close=0x7f09000e;
         public static final int btn_end=0x7f09000d;
         public static final int btn_login=0x7f090006;
+        public static final int btn_logout=0x7f09000e;
         public static final int btn_start=0x7f09000c;
-        public static final int et_password=0x7f090005;
         public static final int et_phoneno=0x7f090004;
         public static final int et_tenant=0x7f090003;
+        public static final int et_vehicleno=0x7f090005;
         public static final int jingyan_item_comcount=0x7f090007;
         public static final int ln_login_sina=0x7f090008;
         public static final int ln_login_tenwb=0x7f090009;
@@ -73,34 +78,28 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f060002;
         public static final int app_name=0x7f060000;
-        public static final int do_not_have_account=0x7f06000d;
-        public static final int forget_password=0x7f06000b;
+        public static final int cp_info=0x7f060008;
         public static final int hello_world=0x7f060001;
-        public static final int hint_password=0x7f06000a;
-        public static final int hint_tenant=0x7f060008;
-        public static final int hint_username=0x7f060009;
-        public static final int login=0x7f060012;
-        public static final int password=0x7f060007;
-        public static final int platform_user=0x7f060010;
-        public static final int pls_wait=0x7f06000c;
-        public static final int profile=0x7f06000e;
-        public static final int startlocation=0x7f060003;
-        public static final int stoplocation=0x7f060004;
-        public static final int tanent_title=0x7f06000f;
         /**  login activity 
          */
-        public static final int tenant=0x7f060005;
-        public static final int username=0x7f060006;
-        public static final int vehicle_info=0x7f060011;
+        public static final int hint_username=0x7f060005;
+        public static final int hint_vehicleno=0x7f060006;
+        public static final int login=0x7f060007;
+        public static final int startlocation=0x7f060003;
+        public static final int stoplocation=0x7f060004;
+        public static final int unknown_error=0x7f060009;
     }
     public static final class style {
         public static final int App_Button=0x7f070005;
         public static final int App_Button_Big=0x7f070004;
         public static final int App_Button_Big_Blue=0x7f070003;
+        public static final int App_Button_Big_Red=0x7f070006;
         public static final int AppActionBar=0x7f070002;
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
+
 
 
 
@@ -110,6 +109,8 @@ public final class R {
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
+
 
 
 

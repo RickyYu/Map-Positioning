@@ -12,14 +12,22 @@ import com.smarter56.waxberry.R;
 import com.smarter56.waxberry.R.id;
 import com.smarter56.waxberry.R.layout;
 import com.smarter56.waxberry.util.CustomBDLocationListener;
+import com.smarter56.waxberry.util.DBService;
 import com.smarter56.waxberry.util.HttpUtil;
+import com.smarter56.waxberry.util.Intents;
 import com.smarter56.waxberry.util.SharedPreferencesUtils;
+import com.smarter56.waxberry.util.HttpUtil.uploadAsyncTask;
+import com.smarter56.waxberry.util.ToastUtils;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -37,41 +45,43 @@ import android.widget.Toast;
  */
 public class MainActivity extends Activity implements OnClickListener {
 	private final static String TAG = MainActivity.class.getSimpleName();
-	private static final String START_LOCSTART_SERVICE = "START_LOCATING_SERVICE";
-	private static final int ALARM_INTERVAL_TIME = 1000 * 120;// 2分钟
+
+	private static final int ALARM_INTERVAL_TIME = 1000 * 900;// 15分钟
 	private Button btn_start, btn_end, btn_close;
 	private TextView tv_content, tv_user;
 	private CustomReceiver locationReceiver;
 	private AlarmManager alarmManager;
 	private PendingIntent mPendingIntent;
+	private Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		context = getApplicationContext();
 		btn_start = (Button) findViewById(R.id.btn_start);
 		btn_end = (Button) findViewById(R.id.btn_end);
-		btn_close = (Button) findViewById(R.id.btn_close);
+		btn_close = (Button) findViewById(R.id.btn_logout);
 		tv_content = (TextView) findViewById(R.id.tv_content);
 		tv_user = (TextView) findViewById(R.id.tv_user);
 		alarmManager = (AlarmManager) getApplicationContext().getSystemService(
 				Context.ALARM_SERVICE);
-		tv_user.setText("当前用户：" + new SharedPreferencesUtils(getApplicationContext()).getPhoneNo());
+		tv_user.setText("尊敬的"
+				+ new SharedPreferencesUtils(getApplicationContext())
+						.getVehicleNo() + "车主！");
 		// 启动service，定时2分钟激活。
 		btn_start.setOnClickListener(this);
 		btn_end.setOnClickListener(this);
 		btn_close.setOnClickListener(this);
 		locationReceiver = new CustomReceiver();
 		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction("NEW LOCATION SENT");
+		intentFilter.addAction(Intents.ACTION_REFRESH_LOCATION);
 		registerReceiver(locationReceiver, intentFilter);
 
 	}
 
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
-
 		super.onStop();
 	}
 
@@ -79,7 +89,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		Log.i("MainActivity", "-----------------onDestroy-----------------");
+		Log.i(TAG, "-----------------onDestroy-----------------");
 		unregisterReceiver(locationReceiver);
 	}
 
@@ -92,18 +102,16 @@ public class MainActivity extends Activity implements OnClickListener {
 			// TODO Auto-generated method stub
 			locationMsg = intent.getStringExtra("newLoca");
 			tv_content.setText(locationMsg);
-			Log.i(TAG, "handle");
-			Log.i("ricky", "handle");
-			Toast.makeText(getApplicationContext(), locationMsg, 3000).show();
+			ToastUtils.show(context, locationMsg);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onClick(View v) {
-		Intent intent = new Intent(START_LOCSTART_SERVICE);
+		final Intent intent = new Intent(Intents.START_LOCSTART_SERVICE);
 		switch (v.getId()) {
 		case R.id.btn_start:
-			Log.i(TAG, "-----------------btn_start-----------------");
 
 			startService(intent);
 			mPendingIntent = PendingIntent.getService(getApplicationContext(),
@@ -111,23 +119,42 @@ public class MainActivity extends Activity implements OnClickListener {
 			alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
 					System.currentTimeMillis(), ALARM_INTERVAL_TIME,
 					mPendingIntent);
-			Toast.makeText(getApplicationContext(), "定位开始", Toast.LENGTH_SHORT)
-					.show();
+			ToastUtils.show(context, "定位开始");
 			break;
 		case R.id.btn_end:
-			// TODO Auto-generated method stub
-			Log.i(TAG, "-----------------btn_end-----------------");
 			alarmManager.cancel(mPendingIntent);
-
 			stopService(intent);
-			Toast.makeText(getApplicationContext(), "定位结束", Toast.LENGTH_SHORT)
-					.show();
+			ToastUtils.show(context, "定位结束");
 			break;
 
-		case R.id.btn_close:
-			stopService(intent);
-			unregisterReceiver(locationReceiver);
-			android.os.Process.killProcess(android.os.Process.myPid());
+		case R.id.btn_logout:
+			AlertDialog.Builder builder = new Builder(MainActivity.this);
+			builder.setMessage("确定退出本次定位服务吗？")
+					.setPositiveButton("确认", new Dialog.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							new HttpUtil(getApplicationContext()).new uploadAsyncTask()
+									.execute(DBService.getInstance(
+											getApplicationContext())
+											.loadAllGpsInfoModels());
+							stopService(intent);
+							alarmManager.cancel(mPendingIntent);
+							unregisterReceiver(locationReceiver);
+							android.os.Process.killProcess(android.os.Process
+									.myPid());
+
+						}
+
+					}).setNegativeButton("取消", new Dialog.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+						}
+
+					}).create().show();
+
 			break;
 
 		default:
