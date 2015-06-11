@@ -60,7 +60,7 @@ public class CustomBDLocationListener implements BDLocationListener {
 		if (location == null) {
 			return;
 		}
-
+		// TODO tomorrow
 		String totalKm = getDistance(location.getLatitude(),
 				location.getLongitude(), bdLocation1.getLatitude(),
 				bdLocation1.getLongitude());
