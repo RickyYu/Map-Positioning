@@ -16,5 +16,6 @@
                                      \n浙ICP备 11018868号
                                     \nCopyright©2011-2013</string>
     <string name="unknown_error">未知错误</string>
+    <string name="msg_network_unconnected">网络连接异常，请检查网络后重试!</string>
 
 </resources>

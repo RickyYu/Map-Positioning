@@ -65,6 +65,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		context = getApplicationContext();
 		Log.i("ricky", "DBService.getInstance(context).countInfoModels()="
 				+ DBService.getInstance(context).countInfoModels());
+		Log.i("ricky", "DBService.getInstance(context).countInfoModels()="
+				+ DBService.getInstance(context).loadAllGpsInfoModels());
 		btn_start = (Button) findViewById(R.id.btn_start);
 		btn_end = (Button) findViewById(R.id.btn_end);
 		btn_close = (Button) findViewById(R.id.btn_logout);
@@ -147,7 +149,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			// TODO Auto-generated method stub
 			locationMsg = intent.getStringExtra("gpsInfo");
 			// tv_content.setText(locationMsg);
-			ToastUtils.show(context, locationMsg);
+			//ToastUtils.show(context, locationMsg);
 		}
 	}
 

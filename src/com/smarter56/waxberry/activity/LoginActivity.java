@@ -3,6 +3,8 @@ package com.smarter56.waxberry.activity;
 import java.util.regex.Pattern;
 
 import com.smarter56.waxberry.R;
+import com.smarter56.waxberry.util.GpsUtil;
+import com.smarter56.waxberry.util.NetworkHelper;
 import com.smarter56.waxberry.util.SharedPreferencesUtils;
 import com.smarter56.waxberry.util.ToastUtils;
 
@@ -23,14 +25,14 @@ public class LoginActivity extends Activity {
 	private EditText etPhoneNo, etVehicleNo;
 	private Button btnLogin;
 	private SharedPreferencesUtils utils;
-	private Activity activity;
+	private Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		activity = LoginActivity.this;
-		utils = new SharedPreferencesUtils(activity);
+		context = getApplicationContext();
+		utils = new SharedPreferencesUtils(context);
 		if (utils.getAutoLogin()) {
 			startActivity(new Intent(LoginActivity.this, MainActivity.class));
 			finish();
@@ -46,13 +48,23 @@ public class LoginActivity extends Activity {
 				String strPhoneNo = etPhoneNo.getText().toString().trim();
 				String strVehicleNo = etVehicleNo.getText().toString().trim();
 				if (!isPhoneNumber(strPhoneNo)) {
-					ToastUtils.show(activity, "请输入正确的手机号码！");
+					ToastUtils.show(context, "请输入正确的手机号码！");
 					return;
 				}
 				if (isBlank(strVehicleNo)) {
-					ToastUtils.show(activity, "车牌号不能为空！");
+					ToastUtils.show(context, "车牌号不能为空！");
 					return;
 				}
+			
+		        if (!NetworkHelper.isNetworkConnected(context)) {		        
+		        	ToastUtils.show(context, "网络连接不可用，请重新设置！");
+		            return;
+		        }
+		        if (!GpsUtil.isOPen(getApplicationContext())) {		        
+		        	ToastUtils.show(context, "GPS不可用，请开启GPS！");
+		        	GpsUtil.openGPS(context);
+		            return;
+		        }
 				utils.setAutoLogin();
 				utils.setPhoneNo(strPhoneNo);
 				utils.setVehicleNo(strVehicleNo);
