@@ -109,12 +109,12 @@ public class SharedPreferencesUtils {
 		return spEditor.commit();
 	}
 
-	public String getTotalMeters() {
-		return sp.getString("totalMeters", "");
+	public int getTotalMeters() {
+		return sp.getInt("totalMeters", 0);
 	}
 
-	public boolean setTotalMeters(String totalMeters) {
-		spEditor.putString("totalMeters", totalMeters);
+	public boolean setTotalMeters(int totalMeters) {
+		spEditor.putInt("totalMeters", totalMeters);
 		return spEditor.commit();
 	}
 
@@ -124,6 +124,15 @@ public class SharedPreferencesUtils {
 
 	public boolean setAutoLogin() {
 		spEditor.putBoolean("auto_login", true);
+		return spEditor.commit();
+	}
+	
+	public boolean getRecordMileage() {
+		return sp.getBoolean("record_mileage", false);
+	}
+
+	public boolean setRecordMileage() {
+		spEditor.putBoolean("record_mileage", true);
 		return spEditor.commit();
 	}
 }

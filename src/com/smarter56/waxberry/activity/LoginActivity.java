@@ -56,7 +56,7 @@ public class LoginActivity extends Activity {
 				utils.setAutoLogin();
 				utils.setPhoneNo(strPhoneNo);
 				utils.setVehicleNo(strVehicleNo);
-				utils.setTotalMeters(0 + "");
+				utils.setTotalMeters(0);
 				startActivity(new Intent(LoginActivity.this, MainActivity.class));
 				finish();
 

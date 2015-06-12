@@ -44,8 +44,8 @@ import android.widget.Toast;
  * @author Ricky
  */
 public class MainActivity extends Activity implements OnClickListener {
+	
 	private final static String TAG = MainActivity.class.getSimpleName();
-
 	private static final int ALARM_INTERVAL_TIME = 1000 * 900;// 15分钟
 	private Button btn_start, btn_end, btn_close;
 	private TextView tv_content, tv_user;
@@ -91,19 +91,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onDestroy();
 		Log.i(TAG, "-----------------onDestroy-----------------");
 		unregisterReceiver(locationReceiver);
-	}
-
-	class CustomReceiver extends BroadcastReceiver {
-
-		String locationMsg = "";
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			// TODO Auto-generated method stub
-			locationMsg = intent.getStringExtra("newLoca");
-			tv_content.setText(locationMsg);
-			ToastUtils.show(context, locationMsg);
-		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -161,5 +148,18 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		}
 
+	}
+
+	class CustomReceiver extends BroadcastReceiver {
+
+		String locationMsg = "";
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			locationMsg = intent.getStringExtra("gpsInfo");
+			tv_content.setText(locationMsg);
+			ToastUtils.show(context, locationMsg);
+		}
 	}
 }

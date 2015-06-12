@@ -29,10 +29,11 @@ public class CustomBDLocationListener implements BDLocationListener {
 	private final static String TAG = CustomBDLocationListener.class
 			.getSimpleName();
 	private Context context;
+	private boolean first = true;
 	private String vehicelNo;
-	private String totalMeters;
-	private static int totalMeterss = 0;
-	BDLocation bdLocation1 = new BDLocation();
+	private static int totalMeters = 0;
+	private BDLocation bdLocation1;
+	private SharedPreferencesUtils utils;
 
 	public CustomBDLocationListener() {
 		super();
@@ -41,14 +42,14 @@ public class CustomBDLocationListener implements BDLocationListener {
 	public CustomBDLocationListener(Context context) {
 		super();
 		this.context = context;
-		vehicelNo = new SharedPreferencesUtils(context).getVehicleNo();
-		totalMeters = new SharedPreferencesUtils(context).getTotalMeters();
+		utils = new SharedPreferencesUtils(context);
+		vehicelNo = utils.getVehicleNo();
 	}
 
 	// 发送广播，提示更新界面
 	private void sendToActivity(String gpsInfo) {
 		Intent intent = new Intent();
-		intent.putExtra("newLoca", gpsInfo);
+		intent.putExtra("gpsInfo", gpsInfo);
 		intent.setAction(Intents.ACTION_REFRESH_LOCATION);
 		context.sendBroadcast(intent);
 	}
@@ -61,14 +62,16 @@ public class CustomBDLocationListener implements BDLocationListener {
 			return;
 		}
 		// TODO tomorrow
-		String totalKm = getDistance(location.getLatitude(),
-				location.getLongitude(), bdLocation1.getLatitude(),
-				bdLocation1.getLongitude());
-		Log.i("ricky", "bdLocation1.getLatitude()=" + bdLocation1.getLatitude());
+		if (!first) {
+			String strTotalMeters = getDistance(location.getLatitude(),
+					location.getLongitude(), bdLocation1.getLatitude(),
+					bdLocation1.getLongitude());
+			totalMeters = totalMeters + Integer.parseInt(strTotalMeters);
+		}
 		bdLocation1 = location;
-		totalMeterss = totalMeterss + Integer.parseInt(totalKm);
+		first = false;
 		GpsInfoModel infoModel = new GpsInfoModel();
-		infoModel.setTotalMeters(totalMeterss);
+		infoModel.setTotalMeters(totalMeters);
 		infoModel.setLat(location.getLatitude());
 		infoModel.setLon(location.getLongitude());
 		infoModel.setUpdateTime(new Date().getTime());
@@ -82,11 +85,10 @@ public class CustomBDLocationListener implements BDLocationListener {
 		}
 		infoModel.setDirection(location.getDirection());
 		DBService.getInstance(context).saveGpsInfoModel(infoModel);
-		List<GpsInfoModel> gpsInfoModels = DBService.getInstance(context)
-				.loadAllGpsInfoModels();
-		if (gpsInfoModels.size() >= 2) {
+		if (DBService.getInstance(context).countInfoModels() > 12) {
 
-			new HttpUtil(context).new uploadAsyncTask().execute(gpsInfoModels);
+			new HttpUtil(context).new uploadAsyncTask().execute(DBService
+					.getInstance(context).loadAllGpsInfoModels());
 		}
 
 		sendToActivity(infoModel.toString());

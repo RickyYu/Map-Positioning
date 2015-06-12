@@ -98,6 +98,15 @@ public class DBService {
 	}
 
 	/**
+	 * query 
+	 * 
+	 * @return
+	 */
+	public int countInfoModels() {
+		return loadAllGpsInfoModels().size();
+	}
+
+	/**
 	 * load the entity with limit count
 	 * 
 	 * @param limit
