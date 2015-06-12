@@ -8,15 +8,13 @@
     <string name="stoplocation">停止定位</string>
 
     <!-- login activity -->
-   
+
     <string name="hint_username">请输入您的手机号</string>
     <string name="hint_vehicleno">请输入您的车牌号</string>
-
     <string name="login">登录</string>
     <string name="cp_info">          宁波智慧物流科技有限公司
-                                                                                                                                   浙ICP备 11018868号
-                                    Copyright©2011-2013</string>
+                                     \n浙ICP备 11018868号
+                                    \nCopyright©2011-2013</string>
     <string name="unknown_error">未知错误</string>
-                                    
 
 </resources>

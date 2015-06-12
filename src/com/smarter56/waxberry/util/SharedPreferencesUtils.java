@@ -131,8 +131,8 @@ public class SharedPreferencesUtils {
 		return sp.getBoolean("record_mileage", false);
 	}
 
-	public boolean setRecordMileage() {
-		spEditor.putBoolean("record_mileage", true);
+	public boolean setRecordMileage(boolean tag) {
+		spEditor.putBoolean("record_mileage", tag);
 		return spEditor.commit();
 	}
 }

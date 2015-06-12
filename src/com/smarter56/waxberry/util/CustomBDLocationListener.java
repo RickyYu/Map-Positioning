@@ -29,10 +29,10 @@ public class CustomBDLocationListener implements BDLocationListener {
 	private final static String TAG = CustomBDLocationListener.class
 			.getSimpleName();
 	private Context context;
-	private boolean first = true;
+	private boolean first_refresh = true;
 	private String vehicelNo;
-	private static int totalMeters = 0;
-	private BDLocation bdLocation1;
+	private static int totalMeters;
+	private BDLocation tempBdLocation;
 	private SharedPreferencesUtils utils;
 
 	public CustomBDLocationListener() {
@@ -44,10 +44,11 @@ public class CustomBDLocationListener implements BDLocationListener {
 		this.context = context;
 		utils = new SharedPreferencesUtils(context);
 		vehicelNo = utils.getVehicleNo();
+		totalMeters = utils.getTotalMeters();
 	}
 
 	// 发送广播，提示更新界面
-	private void sendToActivity(String gpsInfo) {
+	private void postRefreshView(String gpsInfo) {
 		Intent intent = new Intent();
 		intent.putExtra("gpsInfo", gpsInfo);
 		intent.setAction(Intents.ACTION_REFRESH_LOCATION);
@@ -61,23 +62,16 @@ public class CustomBDLocationListener implements BDLocationListener {
 		if (location == null) {
 			return;
 		}
-		// TODO tomorrow
-		if (!first) {
-			String strTotalMeters = getDistance(location.getLatitude(),
-					location.getLongitude(), bdLocation1.getLatitude(),
-					bdLocation1.getLongitude());
-			totalMeters = totalMeters + Integer.parseInt(strTotalMeters);
-		}
-		bdLocation1 = location;
-		first = false;
+
+		handleMileage(location);
+
 		GpsInfoModel infoModel = new GpsInfoModel();
 		infoModel.setTotalMeters(totalMeters);
 		infoModel.setLat(location.getLatitude());
 		infoModel.setLon(location.getLongitude());
 		infoModel.setUpdateTime(new Date().getTime());
-		// infoModel.setUploadTime(location.getTime());
-		infoModel.setVehicleNo("浙B9999");
-		infoModel.setPlaceName(String.valueOf(location.getAddrStr()));
+		infoModel.setVehicleNo(vehicelNo);
+		//infoModel.setPlaceName(String.valueOf(location.getAddrStr()));
 		if (location.getLocType() == BDLocation.TypeGpsLocation) {
 			infoModel.setSpeed(location.getSpeed());
 		} else {
@@ -85,13 +79,35 @@ public class CustomBDLocationListener implements BDLocationListener {
 		}
 		infoModel.setDirection(location.getDirection());
 		DBService.getInstance(context).saveGpsInfoModel(infoModel);
-		if (DBService.getInstance(context).countInfoModels() > 12) {
+		ToastUtils.show(context,
+				"DBService.getInstance(context).countInfoModels()="
+						+ DBService.getInstance(context).countInfoModels());
+
+		if (DBService.getInstance(context).countInfoModels() >= Intents.INTERVAL_UPLOAD_COUNT) {
 
 			new HttpUtil(context).new uploadAsyncTask().execute(DBService
 					.getInstance(context).loadAllGpsInfoModels());
 		}
 
-		sendToActivity(infoModel.toString());
+		postRefreshView(infoModel.toString());
+	}
+
+	private void handleMileage(BDLocation location) {
+		if (!first_refresh) {
+			String strTotalMeters = getDistance(location.getLatitude(),
+					location.getLongitude(), tempBdLocation.getLatitude(),
+					tempBdLocation.getLongitude());
+			int meters = Integer.parseInt(strTotalMeters);
+			if (meters > Intents.RANGE_SHIFT_MIN
+					&& meters < Intents.RANGE_SHIFT_MAX) {// 时速上线不超过200KM
+				totalMeters = totalMeters + meters;
+				utils.setTotalMeters(totalMeters);
+
+			}
+		}
+		tempBdLocation = location;
+		first_refresh = false;
+
 	}
 
 	/**

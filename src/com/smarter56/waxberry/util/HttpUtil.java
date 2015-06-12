@@ -53,17 +53,17 @@ public class HttpUtil {
 
 		@Override
 		protected void onPostExecute(String result) {
-			if (result != null && result.equalsIgnoreCase("success")) {
-				DBService.getInstance(context).deletAllGpsInfoMode();
-				ToastUtils.show(context, "upload success");
+			if (result != null && result.equalsIgnoreCase("success")) {			
+				ToastUtils.show(context, "upload"+result);
 			} else {
-				ToastUtils.show(context, "upload failed");
+				ToastUtils.show(context, "upload"+result);
 			}
 		}
 
 	}
 
 	public String uploadInfo(List<GpsInfoModel> gpsInfoModels) {
+	
 		String infos = "";
 		JSONObject jsonObject = new JSONObject();
 		for (GpsInfoModel model : gpsInfoModels) {
@@ -83,7 +83,7 @@ public class HttpUtil {
 			}
 			infos = infos + String.valueOf(jsonObject) + ",";
 		}
-
+		Log.i("ricky", "uploadInfo");
 		return uploadSync(new SharedPreferencesUtils(context).getPhoneNo(), "["
 				+ infos + "]");
 	}
@@ -100,6 +100,7 @@ public class HttpUtil {
 					public void onSuccess(int arg0, Header[] arg1, String arg2) {
 						if (arg2.equals("true")) {
 							msgResponse = "success";
+							DBService.getInstance(context).deletAllGpsInfoMode();
 						} else {
 							msgResponse = "failed";
 						}
@@ -115,5 +116,35 @@ public class HttpUtil {
 				});
 		return msgResponse;
 	}
+	
+/*	
+	public String uploadASync(String userName, String infos) {
+
+		RequestParams params = new RequestParams();
+		params.add("userName", userName);
+		params.add("gpsInfo", infos);
+		new AsyncHttpClient().post(context, URL, params,
+				new TextHttpResponseHandler() {
+
+					@Override
+					public void onSuccess(int arg0, Header[] arg1, String arg2) {
+						if (arg2.equals("true")) {
+							msgResponse = "success";
+							DBService.getInstance(context).deletAllGpsInfoMode();
+						} else {
+							msgResponse = "failed";
+						}
+						Log.i("ricky", "onSuccess" + arg2);
+					}
+
+					@Override
+					public void onFailure(int arg0, Header[] arg1, String arg2,
+							Throwable arg3) {
+						msgResponse = "failed";
+						Log.i("ricky", "onFailure" + arg2);
+					}
+				});
+		return msgResponse;
+	}*/
 
 }
