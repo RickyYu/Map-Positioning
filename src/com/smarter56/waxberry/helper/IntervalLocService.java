@@ -1,9 +1,10 @@
-package com.smarter56.waxberry.util;
+package com.smarter56.waxberry.helper;
 
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
+import com.smarter56.waxberry.util.Constants;
 
 import android.app.Service;
 import android.content.Intent;
@@ -13,7 +14,7 @@ import android.util.Log;
 /**
  * @author Ricky
  */
-public class CustomGpsService extends Service {
+public class IntervalLocService extends Service {
 
 	private LocationClient locationClient;
 	private CustomBDLocationListener locationListener;
@@ -25,23 +26,21 @@ public class CustomGpsService extends Service {
 		// option
 		locationClientOption = new LocationClientOption();
 		locationClientOption.setLocationMode(LocationMode.Hight_Accuracy);
-		locationClientOption.setScanSpan(Intents.REQUEST_MIN_TIME);
-		locationClientOption.setCoorType(Intents.REQUEST_COOR_TYPE);
+		locationClientOption.setScanSpan(Constants.REQUEST_MIN_TIME);
+		locationClientOption.setCoorType(Constants.REQUEST_COOR_TYPE);
 		locationClientOption.setOpenGps(true);
 		locationClientOption.setIsNeedAddress(true);
-
 		locationListener = new CustomBDLocationListener(getApplicationContext());
-
 		locationClient = new LocationClient(getApplicationContext());
 		locationClient.setLocOption(locationClientOption);
-
 		locationClient.registerLocationListener(locationListener);
+		Logger.log("ricky", "onCreate");
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-
-		if (locationClient != null) {
+		Logger.log("ricky", "onStartCommand");
+		if (locationClient != null &&! locationClient.isStarted()) {
 			locationClient.start();
 		}
 		return super.onStartCommand(intent, flags, startId);

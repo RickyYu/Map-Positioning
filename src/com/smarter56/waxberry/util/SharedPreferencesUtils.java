@@ -3,7 +3,9 @@ package com.smarter56.waxberry.util;
 import java.util.Map;
 import java.util.Set;
 
+
 import com.smarter56.waxberry.MyApplication;
+import com.smarter56.waxberry.helper.Logger;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -72,6 +74,14 @@ public class SharedPreferencesUtils {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public Editor getEditor() {
+		return spEditor;
+	}
+
+	/**
+	 * 
 	 * @param key
 	 * @return
 	 * @throws Exception
@@ -83,12 +93,47 @@ public class SharedPreferencesUtils {
 		return defValue;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public Editor getEditor() {
-		return spEditor;
+	public long getLong(String key) {
+		return sp.getLong(key, -1);
+	}
+
+	public int getInteger(String key) {
+		return sp.getInt(key, -1);
+	}
+
+	public int getInteger(String key, Integer value) {
+		return sp.getInt(key, value);
+	}
+
+	public boolean getBoolean(String key) {
+		return sp.getBoolean(key, false);
+	}
+
+	public boolean getBoolean(String key, boolean bool) {
+		return sp.getBoolean(key, bool);
+	}
+
+	public float getFloat(String key) {
+		return sp.getFloat(key, -1);
+	}
+
+	public void setPreferences(String key, Object value) {
+		Editor editor = sp.edit();
+		if (value instanceof Integer) {
+			Logger.log(this, "setPreferences i", value);
+			editor.putInt(key, (Integer) value);
+		} else if (value instanceof String) {
+			editor.putString(key, (String) value);
+		} else if (value instanceof Boolean) {
+			Logger.log(this, "setPreferences b", value);
+			editor.putBoolean(key, (Boolean) value);
+		} else if (value instanceof Long) {
+			editor.putLong(key, (Long) value);
+		} else if (value instanceof Float) {
+			editor.putFloat(key, (Float) value);
+		}
+		boolean edit = editor.commit();
+		Logger.log(this, "setPreferences", edit + "/" + key + "/" + value);
 	}
 
 	public String getPhoneNo() {
@@ -126,7 +171,7 @@ public class SharedPreferencesUtils {
 		spEditor.putBoolean("auto_login", true);
 		return spEditor.commit();
 	}
-	
+
 	public boolean getRecordMileage() {
 		return sp.getBoolean("record_mileage", false);
 	}

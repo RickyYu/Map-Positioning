@@ -5,7 +5,7 @@ package com.smarter56.waxberry.util;
 /**
  * @author Ricky
  */
-public class Intents {
+public class Constants {
 
 	public static final String ACTION_REFRESH_LOCATION = "action.refresh.location";
 	public static final String START_LOCSTART_SERVICE = "service.refresh.location";

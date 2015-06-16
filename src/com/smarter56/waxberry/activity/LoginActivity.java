@@ -3,8 +3,8 @@ package com.smarter56.waxberry.activity;
 import java.util.regex.Pattern;
 
 import com.smarter56.waxberry.R;
+import com.smarter56.waxberry.helper.NetworkHelper;
 import com.smarter56.waxberry.util.GpsUtil;
-import com.smarter56.waxberry.util.NetworkHelper;
 import com.smarter56.waxberry.util.SharedPreferencesUtils;
 import com.smarter56.waxberry.util.ToastUtils;
 
@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 /**
  * @author Ricky
@@ -55,16 +54,16 @@ public class LoginActivity extends Activity {
 					ToastUtils.show(context, "车牌号不能为空！");
 					return;
 				}
-			
-		        if (!NetworkHelper.isNetworkConnected(context)) {		        
-		        	ToastUtils.show(context, "网络连接不可用，请重新设置！");
-		            return;
-		        }
-		        if (!GpsUtil.isOPen(getApplicationContext())) {		        
-		        	ToastUtils.show(context, "GPS不可用，请开启GPS！");
-		        	GpsUtil.openGPS(context);
-		            return;
-		        }
+
+				if (!NetworkHelper.isNetworkConnected(context)) {
+					ToastUtils.show(context, "网络连接不可用，请重新设置！");
+					return;
+				}
+				if (!GpsUtil.isOPen(getApplicationContext())) {
+					ToastUtils.show(context, "GPS不可用，请开启GPS！");
+					GpsUtil.openGPS(context);
+					return;
+				}
 				utils.setAutoLogin();
 				utils.setPhoneNo(strPhoneNo);
 				utils.setVehicleNo(strVehicleNo);
@@ -77,9 +76,6 @@ public class LoginActivity extends Activity {
 
 	}
 
-	public void check(String phoneNo, String vehicelNo) {
-
-	}
 
 	/**
 	 * 字符串为 null 或者为 "" 时返回 true

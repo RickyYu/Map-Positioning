@@ -1,4 +1,4 @@
-package com.smarter56.waxberry.util;
+package com.smarter56.waxberry.helper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,6 +12,12 @@ import org.json.JSONObject;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.smarter56.waxberry.dao.GpsInfoModel;
+import com.smarter56.waxberry.util.Constants;
+import com.smarter56.waxberry.util.DBService;
+import com.smarter56.waxberry.util.HttpUtil;
+import com.smarter56.waxberry.util.SharedPreferencesUtils;
+import com.smarter56.waxberry.util.ToastUtils;
+import com.smarter56.waxberry.util.HttpUtil.uploadAsyncTask;
 
 import android.R.integer;
 import android.content.Context;
@@ -36,7 +42,7 @@ public class CustomBDLocationListener implements BDLocationListener {
 	private SharedPreferencesUtils utils;
 
 	public CustomBDLocationListener() {
-		super();
+		super();		
 	}
 
 	public CustomBDLocationListener(Context context) {
@@ -51,7 +57,7 @@ public class CustomBDLocationListener implements BDLocationListener {
 	private void postRefreshView(String gpsInfo) {
 		Intent intent = new Intent();
 		intent.putExtra("gpsInfo", gpsInfo);
-		intent.setAction(Intents.ACTION_REFRESH_LOCATION);
+		intent.setAction(Constants.ACTION_REFRESH_LOCATION);
 		context.sendBroadcast(intent);
 	}
 
@@ -83,7 +89,7 @@ public class CustomBDLocationListener implements BDLocationListener {
 				"DBService.getInstance(context).countInfoModels()="
 						+ DBService.getInstance(context).countInfoModels());
 
-		if (DBService.getInstance(context).countInfoModels() >= Intents.INTERVAL_UPLOAD_COUNT) {
+		if (DBService.getInstance(context).countInfoModels() >= Constants.INTERVAL_UPLOAD_COUNT) {
 
 			new HttpUtil(context).new uploadAsyncTask().execute(DBService
 					.getInstance(context).loadAllGpsInfoModels());
@@ -98,8 +104,8 @@ public class CustomBDLocationListener implements BDLocationListener {
 					location.getLongitude(), tempBdLocation.getLatitude(),
 					tempBdLocation.getLongitude());
 			int meters = Integer.parseInt(strTotalMeters);
-			if (meters > Intents.RANGE_SHIFT_MIN
-					&& meters < Intents.RANGE_SHIFT_MAX) {// 时速上线不超过200KM
+			if (meters > Constants.RANGE_SHIFT_MIN
+					&& meters < Constants.RANGE_SHIFT_MAX) {// 时速上线不超过200KM
 				totalMeters = totalMeters + meters;
 				utils.setTotalMeters(totalMeters);
 
@@ -135,15 +141,16 @@ public class CustomBDLocationListener implements BDLocationListener {
 				+ Math.cos(radLat1)
 				* Math.cos(radLat2)
 				* Math.pow(Math.sin(mdifference / 2), 2)));
-		distance = distance * Intents.EARTH_RADIUS * 1000;
+		distance = distance * Constants.EARTH_RADIUS * 1000;
 		distance = Math.round(distance * 10000) / 10000;
-		String distanceStr = distance + "";
-		distanceStr = distanceStr.substring(0, distanceStr.indexOf("."));
+		String strDistance = distance + "";
+		strDistance = strDistance.substring(0, strDistance.indexOf("."));
 
-		return distanceStr;
+		return strDistance;
 	}
 
 	private static double rad(double d) {
 		return d * Math.PI / 180.0;
 	}
+
 }

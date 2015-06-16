@@ -1,4 +1,4 @@
-package com.smarter56.waxberry.util;
+package com.smarter56.waxberry.helper;
 
 import java.util.List;
 

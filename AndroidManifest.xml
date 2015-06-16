@@ -11,7 +11,7 @@
     <application
         android:name="com.smarter56.waxberry.MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <meta-data

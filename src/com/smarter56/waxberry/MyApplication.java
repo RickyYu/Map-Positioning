@@ -5,7 +5,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.GeofenceClient;
 import com.baidu.location.LocationClient;
 
-import com.smarter56.waxberry.util.NetworkHelper;
+import com.smarter56.waxberry.helper.NetworkHelper;
 import com.smarter56.waxberry.util.SharedPreferencesUtils;
 
 import android.app.Application;
