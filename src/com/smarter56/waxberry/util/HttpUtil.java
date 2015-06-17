@@ -1,41 +1,28 @@
 package com.smarter56.waxberry.util;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
 
 import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
+import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.smarter56.waxberry.dao.GpsInfoModel;
+import com.smarter56.waxberry.helper.Logger;
 
 /**
  * @author Ricky
  */
 public class HttpUtil {
 	private Context context;
-	private final static String URL = "http://locationsvr.tunnel.mobi/SLP_IOT_WAR/upload/batch/gps";
+	private final static String URL = "http://183.136.128.59:8080/SLP_Interface_WAR/upload/batch/gps";
 	private String msgResponse;
 
 	public HttpUtil(Context context) {
@@ -53,19 +40,20 @@ public class HttpUtil {
 
 		@Override
 		protected void onPostExecute(String result) {
-			if (result != null && result.equalsIgnoreCase("success")) {			
-				ToastUtils.show(context, "upload"+result);
+			if (result != null && result.equalsIgnoreCase("success")) {
+				ToastUtils.show(context, "上传成功！");
 			} else {
-				ToastUtils.show(context, "upload"+result);
+				ToastUtils.show(context, "上传失败！");
 			}
 		}
 
 	}
 
 	public String uploadInfo(List<GpsInfoModel> gpsInfoModels) {
-	
+
 		String infos = "";
-		JSONObject jsonObject = new JSONObject();
+		String strModels = JSON.toJSONString(gpsInfoModels, true);
+	/*	JSONObject jsonObject = new JSONObject();
 		for (GpsInfoModel model : gpsInfoModels) {
 			try {
 				jsonObject.put("lat", model.getLat());
@@ -82,14 +70,12 @@ public class HttpUtil {
 				e.printStackTrace();
 			}
 			infos = infos + String.valueOf(jsonObject) + ",";
-		}
-		Log.i("ricky", "uploadInfo");
-		return uploadSync(new SharedPreferencesUtils(context).getPhoneNo(), "["
-				+ infos + "]");
+		}*/
+		Logger.log("uploadInfo", "string=" + strModels);
+		return uploadSync(new SharedPreferencesUtils(context).getPhoneNo(), strModels);
 	}
 
 	public String uploadSync(String userName, String infos) {
-
 		RequestParams params = new RequestParams();
 		params.add("userName", userName);
 		params.add("gpsInfo", infos);
@@ -100,51 +86,19 @@ public class HttpUtil {
 					public void onSuccess(int arg0, Header[] arg1, String arg2) {
 						if (arg2.equals("true")) {
 							msgResponse = "success";
-							DBService.getInstance(context).deletAllGpsInfoMode();
+							DBService.getInstance(context)
+									.deletAllGpsInfoMode();
 						} else {
 							msgResponse = "failed";
-						}
-						Log.i("ricky", "onSuccess" + arg2);
+						}					
 					}
 
 					@Override
 					public void onFailure(int arg0, Header[] arg1, String arg2,
 							Throwable arg3) {
-						msgResponse = "failed";
-						Log.i("ricky", "onFailure" + arg2);
+						msgResponse = "failed";						
 					}
 				});
 		return msgResponse;
 	}
-	
-/*	
-	public String uploadASync(String userName, String infos) {
-
-		RequestParams params = new RequestParams();
-		params.add("userName", userName);
-		params.add("gpsInfo", infos);
-		new AsyncHttpClient().post(context, URL, params,
-				new TextHttpResponseHandler() {
-
-					@Override
-					public void onSuccess(int arg0, Header[] arg1, String arg2) {
-						if (arg2.equals("true")) {
-							msgResponse = "success";
-							DBService.getInstance(context).deletAllGpsInfoMode();
-						} else {
-							msgResponse = "failed";
-						}
-						Log.i("ricky", "onSuccess" + arg2);
-					}
-
-					@Override
-					public void onFailure(int arg0, Header[] arg1, String arg2,
-							Throwable arg3) {
-						msgResponse = "failed";
-						Log.i("ricky", "onFailure" + arg2);
-					}
-				});
-		return msgResponse;
-	}*/
-
 }

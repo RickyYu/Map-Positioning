@@ -68,9 +68,7 @@ public class CustomBDLocationListener implements BDLocationListener {
 		if (location == null) {
 			return;
 		}
-
 		handleMileage(location);
-
 		GpsInfoModel infoModel = new GpsInfoModel();
 		infoModel.setTotalMeters(totalMeters);
 		infoModel.setLat(location.getLatitude());
@@ -86,15 +84,11 @@ public class CustomBDLocationListener implements BDLocationListener {
 		infoModel.setDirection(location.getDirection());
 		DBService.getInstance(context).saveGpsInfoModel(infoModel);
 		ToastUtils.show(context,
-				"DBService.getInstance(context).countInfoModels()="
-						+ DBService.getInstance(context).countInfoModels());
-
+						+ DBService.getInstance(context).countInfoModels()+"ÌõÊý¾Ý£¡");
 		if (DBService.getInstance(context).countInfoModels() >= Constants.INTERVAL_UPLOAD_COUNT) {
-
 			new HttpUtil(context).new uploadAsyncTask().execute(DBService
 					.getInstance(context).loadAllGpsInfoModels());
 		}
-
 		postRefreshView(infoModel.toString());
 	}
 

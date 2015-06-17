@@ -34,12 +34,13 @@ public class IntervalLocService extends Service {
 		locationClient = new LocationClient(getApplicationContext());
 		locationClient.setLocOption(locationClientOption);
 		locationClient.registerLocationListener(locationListener);
-		Logger.log("ricky", "onCreate");
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Logger.log("ricky", "onStartCommand");
+		if(locationClient.requestLocation()==6){
+			locationClient.requestOfflineLocation();
+		}
 		if (locationClient != null &&! locationClient.isStarted()) {
 			locationClient.start();
 		}

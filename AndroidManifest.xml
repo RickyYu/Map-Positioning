@@ -39,7 +39,7 @@
             android:enabled="true"
             android:process=":remote" >
         </service>
-        <service android:name=".util.CustomGpsService" >
+        <service android:name=".helper.IntervalLocService" >
             <intent-filter>
                 <action android:name="service.refresh.location" />
             </intent-filter>

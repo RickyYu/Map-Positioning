@@ -1,6 +1,14 @@
 package com.smarter56.waxberry.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.sf.json.JSONArray;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.smarter56.waxberry.R;
+import com.smarter56.waxberry.dao.GpsInfoModel;
 import com.smarter56.waxberry.helper.LocationProvider;
 import com.smarter56.waxberry.helper.Logger;
 import com.smarter56.waxberry.helper.LocationProvider.LocationResultListener;
@@ -49,7 +57,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		// 启动service，定时2分钟激活。
 		setOnclickListner();
 		registBroadReceiver();
-
 	}
 
 	void initViews() {
@@ -92,7 +99,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		final Intent intent = new Intent(Constants.START_LOCSTART_SERVICE);
 		switch (v.getId()) {
 		case R.id.btn_start:
-			
+
 			startService(intent);
 			mPendingIntent = PendingIntent.getService(context, 0, intent,
 					PendingIntent.FLAG_UPDATE_CURRENT);

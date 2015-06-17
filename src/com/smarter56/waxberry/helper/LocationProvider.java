@@ -8,11 +8,6 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 
-/**
- * LocationProvider
- * 
- * @author charles
- */
 public class LocationProvider {
 
 	private LocationClient locationClient;
