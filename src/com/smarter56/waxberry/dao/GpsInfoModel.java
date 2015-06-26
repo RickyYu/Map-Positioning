@@ -14,12 +14,12 @@ public class GpsInfoModel {
     private String placeName;
     private Float speed;
     private Float direction;
-    private Integer totalMeters;
+    private Integer totalKM;
 
     public GpsInfoModel() {
     }
 
-    public GpsInfoModel(Double lat, Double lon, Long updateTime, String uploadTime, String vehicleNo, String placeName, Float speed, Float direction, Integer totalMeters) {
+    public GpsInfoModel(Double lat, Double lon, Long updateTime, String uploadTime, String vehicleNo, String placeName, Float speed, Float direction, Integer totalKM) {
         this.lat = lat;
         this.lon = lon;
         this.updateTime = updateTime;
@@ -28,7 +28,7 @@ public class GpsInfoModel {
         this.placeName = placeName;
         this.speed = speed;
         this.direction = direction;
-        this.totalMeters = totalMeters;
+        this.totalKM = totalKM;
     }
 
     public Double getLat() {
@@ -95,12 +95,12 @@ public class GpsInfoModel {
         this.direction = direction;
     }
 
-    public Integer getTotalMeters() {
-        return totalMeters;
+    public Integer getTotalKM() {
+        return totalKM;
     }
 
-    public void setTotalMeters(Integer totalMeters) {
-        this.totalMeters = totalMeters;
+    public void setTotalKM(Integer totalKM) {
+        this.totalKM = totalKM;
     }
 
 	@Override
@@ -108,8 +108,7 @@ public class GpsInfoModel {
 		return "GpsInfoModel [lat=" + lat + ", lon=" + lon + ", updateTime="
 				+ updateTime + ", uploadTime=" + uploadTime + ", vehicleNo="
 				+ vehicleNo + ", placeName=" + placeName + ", speed=" + speed
-				+ ", direction=" + direction + ", totalMeters=" + totalMeters
-				+ "]";
+				+ ", direction=" + direction + ", totalKM=" + totalKM + "]";
 	}
 
 

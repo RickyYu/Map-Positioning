@@ -31,7 +31,7 @@ public class GpsInfoModelDao extends AbstractDao<GpsInfoModel, Void> {
         public final static Property PlaceName = new Property(5, String.class, "placeName", false, "PLACE_NAME");
         public final static Property Speed = new Property(6, Float.class, "speed", false, "SPEED");
         public final static Property Direction = new Property(7, Float.class, "direction", false, "DIRECTION");
-        public final static Property TotalMeters = new Property(8, Integer.class, "totalMeters", false, "TOTAL_METERS");
+        public final static Property TotalKM = new Property(8, Integer.class, "totalKM", false, "TOTAL_KM");
     };
 
 
@@ -55,7 +55,7 @@ public class GpsInfoModelDao extends AbstractDao<GpsInfoModel, Void> {
                 "'PLACE_NAME' TEXT," + // 5: placeName
                 "'SPEED' REAL," + // 6: speed
                 "'DIRECTION' REAL," + // 7: direction
-                "'TOTAL_METERS' INTEGER);"); // 8: totalMeters
+                "'TOTAL_KM' INTEGER);"); // 8: totalKM
     }
 
     /** Drops the underlying database table. */
@@ -109,9 +109,9 @@ public class GpsInfoModelDao extends AbstractDao<GpsInfoModel, Void> {
             stmt.bindDouble(8, direction);
         }
  
-        Integer totalMeters = entity.getTotalMeters();
-        if (totalMeters != null) {
-            stmt.bindLong(9, totalMeters);
+        Integer totalKM = entity.getTotalKM();
+        if (totalKM != null) {
+            stmt.bindLong(9, totalKM);
         }
     }
 
@@ -133,7 +133,7 @@ public class GpsInfoModelDao extends AbstractDao<GpsInfoModel, Void> {
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // placeName
             cursor.isNull(offset + 6) ? null : cursor.getFloat(offset + 6), // speed
             cursor.isNull(offset + 7) ? null : cursor.getFloat(offset + 7), // direction
-            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8) // totalMeters
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8) // totalKM
         );
         return entity;
     }
@@ -149,7 +149,7 @@ public class GpsInfoModelDao extends AbstractDao<GpsInfoModel, Void> {
         entity.setPlaceName(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setSpeed(cursor.isNull(offset + 6) ? null : cursor.getFloat(offset + 6));
         entity.setDirection(cursor.isNull(offset + 7) ? null : cursor.getFloat(offset + 7));
-        entity.setTotalMeters(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+        entity.setTotalKM(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
      }
     
     /** @inheritdoc */

@@ -22,7 +22,7 @@ import com.smarter56.waxberry.helper.Logger;
  */
 public class HttpUtil {
 	private Context context;
-	private final static String URL = "http://183.136.128.59:8080/SLP_Interface_WAR/upload/batch/gps";
+	private final static String URL = "http://locationsvr.tunnel.mobi/SLP_Interface_WAR/upload/batch/gps";
 	private String msgResponse;
 
 	public HttpUtil(Context context) {
@@ -50,29 +50,9 @@ public class HttpUtil {
 	}
 
 	public String uploadInfo(List<GpsInfoModel> gpsInfoModels) {
-
-		String infos = "";
-		String strModels = JSON.toJSONString(gpsInfoModels, true);
-	/*	JSONObject jsonObject = new JSONObject();
-		for (GpsInfoModel model : gpsInfoModels) {
-			try {
-				jsonObject.put("lat", model.getLat());
-				jsonObject.put("lon", model.getLon());
-				jsonObject.put("updateTime", model.getUpdateTime());
-				jsonObject.put("uploadTime", model.getUploadTime());
-				jsonObject.put("vehicleNo", model.getVehicleNo());
-				jsonObject.put("placeName", model.getPlaceName());
-				jsonObject.put("direction", model.getDirection());
-				jsonObject.put("speed", model.getSpeed());
-				jsonObject.put("totalKM", model.getTotalMeters());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			infos = infos + String.valueOf(jsonObject) + ",";
-		}*/
-		Logger.log("uploadInfo", "string=" + strModels);
-		return uploadSync(new SharedPreferencesUtils(context).getPhoneNo(), strModels);
+		String strModels = JSON.toJSONString(gpsInfoModels, true);	
+		return uploadSync(new SharedPreferencesUtils(context).getPhoneNo(),
+				strModels);
 	}
 
 	public String uploadSync(String userName, String infos) {
@@ -90,13 +70,13 @@ public class HttpUtil {
 									.deletAllGpsInfoMode();
 						} else {
 							msgResponse = "failed";
-						}					
+						}
 					}
 
 					@Override
 					public void onFailure(int arg0, Header[] arg1, String arg2,
 							Throwable arg3) {
-						msgResponse = "failed";						
+						msgResponse = "failed";
 					}
 				});
 		return msgResponse;

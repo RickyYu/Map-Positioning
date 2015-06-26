@@ -102,9 +102,11 @@ public class DBService {
 	 * 
 	 * @return
 	 */
-	public int countInfoModels() {
-		return loadAllGpsInfoModels().size();
+	public long countInfoModels() {
+		return gpsInfoModelDao.count();
 	}
+	
+
 
 	/**
 	 * load the entity with limit count

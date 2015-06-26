@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.smarter56.waxberry.R;
 import com.smarter56.waxberry.dao.GpsInfoModel;
+import com.smarter56.waxberry.helper.IntervalLocService;
 import com.smarter56.waxberry.helper.LocationProvider;
 import com.smarter56.waxberry.helper.Logger;
 import com.smarter56.waxberry.helper.LocationProvider.LocationResultListener;
@@ -37,7 +38,7 @@ import android.widget.TextView;
  */
 public class MainActivity extends Activity implements OnClickListener {
 
-	private static final int ALARM_INTERVAL_TIME = 1000 * 900;// 15分钟
+	private static final int ALARM_INTERVAL_TIME = 30000;// 15分钟
 	private Button btn_start, btn_end, btn_close;
 	private TextView tv_content, tv_user;
 	private CustomReceiver locationReceiver;
@@ -57,6 +58,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		// 启动service，定时2分钟激活。
 		setOnclickListner();
 		registBroadReceiver();
+	
 	}
 
 	void initViews() {
@@ -96,10 +98,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onClick(View v) {
-		final Intent intent = new Intent(Constants.START_LOCSTART_SERVICE);
+		final Intent intent = new Intent(MainActivity.this,IntervalLocService.class);
 		switch (v.getId()) {
 		case R.id.btn_start:
-
 			startService(intent);
 			mPendingIntent = PendingIntent.getService(context, 0, intent,
 					PendingIntent.FLAG_UPDATE_CURRENT);
@@ -107,13 +108,13 @@ public class MainActivity extends Activity implements OnClickListener {
 					System.currentTimeMillis(), ALARM_INTERVAL_TIME,
 					mPendingIntent);
 			tv_content.setText("定位中...！");
-			ToastUtils.show(context, "定位开始");
+			ToastUtils.show(context, "开始定位");
 			break;
 		case R.id.btn_end:
 			alarmManager.cancel(mPendingIntent);
 			stopService(intent);
 			tv_content.setText("定位已结束！");
-			ToastUtils.show(context, "定位结束");
+			ToastUtils.show(context, "结束定位");
 			break;
 
 		case R.id.btn_logout:
@@ -125,18 +126,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 			finish();
 
-			/*
-			 * LocationProvider locationProvider = new LocationProvider(context,
-			 * true); locationProvider.requestLocation(new
-			 * LocationResultListener() {
-			 * 
-			 * @Override public void onLocationResult(boolean success, String
-			 * city, String area, double latitude, double longitude) {
-			 * 
-			 * ToastUtils.show(context, "success" + success + "city=" + city +
-			 * "area=" + area + "latitude=" + latitude + "longitude" +
-			 * longitude); } });
-			 */
 			break;
 
 		default:
@@ -154,7 +143,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			// TODO Auto-generated method stub
 			locationMsg = intent.getStringExtra("gpsInfo");
 			// tv_content.setText(locationMsg);
-			// ToastUtils.show(context, locationMsg);
+		 //ToastUtils.show(context, locationMsg);
 		}
 	}
 

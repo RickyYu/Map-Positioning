@@ -42,7 +42,7 @@ public class CustomBDLocationListener implements BDLocationListener {
 	private SharedPreferencesUtils utils;
 
 	public CustomBDLocationListener() {
-		super();		
+		super();
 	}
 
 	public CustomBDLocationListener(Context context) {
@@ -70,12 +70,12 @@ public class CustomBDLocationListener implements BDLocationListener {
 		}
 		handleMileage(location);
 		GpsInfoModel infoModel = new GpsInfoModel();
-		infoModel.setTotalMeters(totalMeters);
+		infoModel.setTotalKM(totalMeters);
 		infoModel.setLat(location.getLatitude());
 		infoModel.setLon(location.getLongitude());
 		infoModel.setUpdateTime(new Date().getTime());
 		infoModel.setVehicleNo(vehicelNo);
-		//infoModel.setPlaceName(String.valueOf(location.getAddrStr()));
+		// infoModel.setPlaceName(String.valueOf(location.getAddrStr()));
 		if (location.getLocType() == BDLocation.TypeGpsLocation) {
 			infoModel.setSpeed(location.getSpeed());
 		} else {
@@ -83,9 +83,9 @@ public class CustomBDLocationListener implements BDLocationListener {
 		}
 		infoModel.setDirection(location.getDirection());
 		DBService.getInstance(context).saveGpsInfoModel(infoModel);
-		ToastUtils.show(context,
-						+ DBService.getInstance(context).countInfoModels()+"条数据！");
-		if (DBService.getInstance(context).countInfoModels() >= Constants.INTERVAL_UPLOAD_COUNT) {
+		ToastUtils.show(context, (int) DBService.getInstance(context)
+				.countInfoModels() + "条数据！");
+		if ((int) DBService.getInstance(context).countInfoModels() >= Constants.INTERVAL_UPLOAD_COUNT) {
 			new HttpUtil(context).new uploadAsyncTask().execute(DBService
 					.getInstance(context).loadAllGpsInfoModels());
 		}

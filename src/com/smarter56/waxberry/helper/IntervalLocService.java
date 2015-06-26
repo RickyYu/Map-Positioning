@@ -30,18 +30,22 @@ public class IntervalLocService extends Service {
 		locationClientOption.setCoorType(Constants.REQUEST_COOR_TYPE);
 		locationClientOption.setOpenGps(true);
 		locationClientOption.setIsNeedAddress(true);
+		locationClientOption.setNeedDeviceDirect(true);
 		locationListener = new CustomBDLocationListener(getApplicationContext());
 		locationClient = new LocationClient(getApplicationContext());
 		locationClient.setLocOption(locationClientOption);
 		locationClient.registerLocationListener(locationListener);
+
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		if(locationClient.requestLocation()==6){
+		Logger.log("onStartCommand", "onStartCommand");
+		flags = START_STICKY;
+		if (locationClient.requestLocation() == 6) {
 			locationClient.requestOfflineLocation();
 		}
-		if (locationClient != null &&! locationClient.isStarted()) {
+		if (locationClient != null && !locationClient.isStarted()) {
 			locationClient.start();
 		}
 		return super.onStartCommand(intent, flags, startId);
